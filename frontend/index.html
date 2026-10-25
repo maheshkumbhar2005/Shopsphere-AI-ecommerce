@@ -1,0 +1,915 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="ShopSphere AI — Premium modern e-commerce storefront with customer accounts, admin dashboard, inventory management, order fulfillment, and AI analytics.">
+  <title>ShopSphere AI | Premium Storefront & AI Analytics</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">
+    <span>✨ AI Smart Store: Use coupon code <strong>SAVE20</strong> for 20% off! Free delivery on orders over
+      ₹999.</span>
+  </div>
+
+  <!-- Header / Topbar Navigation -->
+  <header class="topbar">
+    <div class="header-left">
+      <a class="brand" href="#"><span class="brand-mark">S</span> <span class="brand-text">ShopSphere</span><span
+          class="ai">AI</span></a>
+    </div>
+
+    <nav class="nav-links">
+      <a href="#hero-banner" class="nav-item active">Home</a>
+      <a href="#catalog-section" class="nav-item">Catalog</a>
+      <a href="#ai-recs-section" class="nav-item">AI Picks ✦</a>
+      <a href="#featured-section" class="nav-item">Deals</a>
+      <a href="#ai-insights-section" class="nav-item">AI Intelligence</a>
+      <button id="nav-orders-btn" class="nav-text-btn">My Orders <span id="orders-badge-count"
+          class="pill-count">0</span></button>
+      <button id="nav-admin-btn" class="nav-admin-badge-btn">⚡ Admin Console</button>
+    </nav>
+
+    <div class="header-actions">
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme" title="Toggle Dark/Light Mode">🌙</button>
+      <button id="wishlist-toggle" class="icon-btn badge-btn" aria-label="Wishlist" title="View Wishlist">
+        ♥ <span id="wishlist-count" class="bubble-count">0</span>
+      </button>
+      <button id="cart-toggle" class="cart-button" aria-label="Open Shopping Cart">
+        <span class="cart-icon">🛒</span> Cart <span id="cart-count">0</span>
+      </button>
+
+      <!-- User Account Button -->
+      <button id="auth-action-btn" class="account-pill-btn" aria-label="Account">
+        <span class="user-avatar-icon">👤</span>
+        <span id="auth-btn-label">Sign In</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1. Hero Section -->
+    <section id="hero-banner" class="hero">
+      <div class="hero-copy">
+        <div class="hero-badge">✦ AI-CURATED COLLECTION 2026</div>
+        <h1>Everyday luxury.<br><span>Smarter lifestyle.</span></h1>
+        <p>Elevate your study, workspace, and daily productivity with essentials backed by Python machine learning
+          recommendation engines and real-time demand forecasts.</p>
+
+        <div class="hero-cta-group">
+          <a class="primary-link" href="#catalog-section">Shop Collection <span>↗</span></a>
+          <button id="open-assistant-hero" class="secondary-button">Ask AI Assistant ✦</button>
+          <button id="hero-admin-btn" class="admin-pill-outline">Admin Panel ⚙</button>
+        </div>
+
+        <div class="hero-perks">
+          <div class="perk-item"><span>🚀</span> Express Dispatch</div>
+          <div class="perk-item"><span>🤖</span> Smart Recommender</div>
+          <div class="perk-item"><span>⭐</span> 4.8/5 Star Average Rating</div>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="hero-card">
+          <span class="card-tag">TRENDING TODAY</span>
+          <div class="hero-card-img-wrap">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=80"
+              alt="Headphones" class="hero-preview-img">
+          </div>
+          <div class="hero-card-details">
+            <strong>Spatial Audio Pro</strong>
+            <small>₹2,499.00 • ★ 4.9</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. AI Personalized Recommendations Strip -->
+    <section id="ai-recs-section" class="featured-strip recs-strip">
+      <div class="featured-header">
+        <div>
+          <div class="ai-live-badge"><span class="sparkle">✦</span> Python AI Engine Active</div>
+          <h2>Recommended For You</h2>
+          <p class="muted-text" style="font-size:0.85rem; margin-top:4px;">
+            Generated dynamically by our Complementary Affinity Recommender based on your active cart, browsing history,
+            and preferences.
+          </p>
+        </div>
+        <button id="refresh-recs-btn" class="refresh-btn">Re-run AI Match ⟳</button>
+      </div>
+      <div id="ai-recs-grid" class="featured-grid">
+        <!-- Populated dynamically via AI Endpoint -->
+      </div>
+    </section>
+
+    <!-- 3. Featured Deals Strip -->
+    <section id="featured-section" class="featured-strip">
+      <div class="featured-header">
+        <div>
+          <p class="eyebrow">HANDPICKED FOR YOU</p>
+          <h2>Featured Deals & Spotlight Items</h2>
+        </div>
+        <div class="deal-countdown">
+          <span class="countdown-label">Flash Offer Ends In:</span>
+          <span id="countdown-timer" class="countdown-digits">04h : 28m : 15s</span>
+        </div>
+      </div>
+      <div id="featured-grid" class="featured-grid"></div>
+    </section>
+
+    <!-- 4. Catalog Section with Filters, Sorting, Search & Pagination -->
+    <section id="catalog-section" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">THE COMPLETE CATALOG</p>
+          <h2>Explore All Products</h2>
+        </div>
+
+        <div class="filter-controls">
+          <label class="search">
+            <span>⌕</span>
+            <input id="search" type="search" placeholder="Search keywords, items, tags..." aria-label="Search products">
+          </label>
+
+          <select id="sort-select" class="sort-select" aria-label="Sort products">
+            <option value="default">Sort by: Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Top Customer Rated (★)</option>
+            <option value="stock">In Stock First</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="catalog-subbar">
+        <div class="category-tabs" id="category-tabs">
+          <button class="cat-pill active" data-category="all">All Items (<span id="count-all">0</span>)</button>
+          <button class="cat-pill" data-category="1">Electronics (<span id="count-1">0</span>)</button>
+          <button class="cat-pill" data-category="2">Accessories (<span id="count-2">0</span>)</button>
+          <button class="cat-pill" data-category="3">Study & Workspace (<span id="count-3">0</span>)</button>
+          <button class="cat-pill" data-category="4">Lifestyle & Wellness (<span id="count-4">0</span>)</button>
+        </div>
+
+        <div class="extra-filters">
+          <label class="checkbox-filter">
+            <input type="checkbox" id="filter-in-stock"> In Stock Only
+          </label>
+          <label class="checkbox-filter">
+            <input type="checkbox" id="filter-top-rated"> ★ 4.5+ Only
+          </label>
+        </div>
+      </div>
+
+      <div id="status" class="status">Loading catalog…</div>
+      <div id="product-grid" class="product-grid"></div>
+
+      <div id="pagination-controls" class="pagination-wrap">
+        <button id="prev-page" class="page-nav-btn" disabled>← Previous</button>
+        <div id="page-numbers" class="page-numbers"></div>
+        <button id="next-page" class="page-nav-btn">Next →</button>
+      </div>
+    </section>
+
+    <!-- 5. AI Sales Trends & Forecasting Section -->
+    <section id="ai-insights-section" class="analytics-section">
+      <div class="analytics-card">
+        <div class="analytics-header">
+          <div>
+            <p class="eyebrow">BUILT-IN PYTHON FASTAPI ANALYTICS ENGINE</p>
+            <h2>Live Demand & Forecasting Intelligence</h2>
+            <p class="muted-text">Real-time metrics calculated dynamically by Python analytics service with 7-day moving
+              average demand forecasts.</p>
+          </div>
+          <button id="refresh-analytics" class="refresh-btn">Sync Analytics ⟳</button>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <span class="metric-label">Demo Store Gross Sales</span>
+            <strong id="metric-revenue" class="metric-value">₹48,990.00</strong>
+            <small class="metric-delta positive">↑ 18.4% this month</small>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Completed Units Delivered</span>
+            <strong id="metric-units" class="metric-value">32 items</strong>
+            <small class="metric-delta">Across 4 departments</small>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Average Basket Size</span>
+            <strong id="metric-avg" class="metric-value">₹1,530.93</strong>
+            <small class="metric-delta">Optimized by AI</small>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Projected Daily Demand</span>
+            <strong id="metric-forecast" class="metric-value">~7.2 units/day</strong>
+            <small class="metric-delta">7-day rolling window</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Customer Review Sentiment & Testimonials -->
+    <section class="section testimonials-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">NLP SENTIMENT INTELLIGENCE</p>
+          <h2>Customer Satisfaction & Verified Sentiment</h2>
+        </div>
+        <div id="sentiment-overall-badge" class="status-badge delivered" style="font-size:0.85rem; padding:6px 14px;">
+          NLP Sentiment: Analyzing...
+        </div>
+      </div>
+
+      <!-- Live NLP Sentiment Bar -->
+      <div class="sentiment-meter-bar" style="margin-bottom:24px;">
+        <div class="sentiment-bar-track">
+          <div id="sentiment-pos-fill" class="sentiment-fill pos" style="width: 85%;">85% Positive</div>
+          <div id="sentiment-neu-fill" class="sentiment-fill neu" style="width: 12%;">12% Neutral</div>
+          <div id="sentiment-neg-fill" class="sentiment-fill neg" style="width: 3%;">3%</div>
+        </div>
+        <small style="color:var(--muted); font-size:0.78rem; display:block; margin-top:6px;">
+          Evaluated in real-time by FastAPI NLP lexical scoring analyzing customer review bodies.
+        </small>
+      </div>
+
+      <div class="testimonials-grid">
+        <div class="testi-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="testi-stars">★★★★★</div>
+            <span class="sentiment-tag-pill pos">NLP: Positive (98%)</span>
+          </div>
+          <p>"The wireless headphones have supreme sound clarity for online classes and study sessions. Delivered in 2
+            days!"</p>
+          <div class="testi-user"><strong>Aarav Sharma</strong> <span>• Verified Buyer, Mumbai</span></div>
+        </div>
+        <div class="testi-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="testi-stars">★★★★★</div>
+            <span class="sentiment-tag-pill pos">NLP: Positive (94%)</span>
+          </div>
+          <p>"The minimalist backpack fits my 16-inch laptop snugly. Water-resistant material saved my gear during heavy
+            rain."</p>
+          <div class="testi-user"><strong>Priya Patel</strong> <span>• Verified Buyer, Bangalore</span></div>
+        </div>
+        <div class="testi-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div class="testi-stars">★★★★★</div>
+            <span class="sentiment-tag-pill pos">NLP: Positive (96%)</span>
+          </div>
+          <p>"The AI assistant helped me pick the right desk lamp under ₹1,000 for my late-night coding sessions.
+            Exceptional value."</p>
+          <div class="testi-user"><strong>Vikram Roy</strong> <span>• Verified Buyer, Pune</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand-col">
+        <a class="brand" href="#"><span class="brand-mark">S</span> ShopSphere<span class="ai">AI</span></a>
+        <p>A full-stack, enterprise-grade e-commerce showcase combining Java Spring Boot, MySQL, Python FastAPI
+          analytics, and modern Vanilla web technologies.</p>
+      </div>
+      <div class="footer-links-col">
+        <strong>Quick Navigation</strong>
+        <a href="#hero-banner">Home</a>
+        <a href="#catalog-section">Product Catalog</a>
+        <a href="#ai-recs-section">Personalized Picks</a>
+        <a href="#featured-section">Spotlight Deals</a>
+        <a href="#ai-insights-section">Analytics Dashboard</a>
+      </div>
+      <div class="footer-links-col">
+        <strong>Store Management</strong>
+        <a href="#" id="footer-admin-link">⚙ Admin Console</a>
+        <a href="#" id="footer-account-link">My Profile & Addresses</a>
+        <a href="#" id="footer-orders-link">Order Tracking</a>
+        <a href="#" id="footer-wishlist-link">Saved Wishlist</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ShopSphere AI Inc. All rights reserved.</span>
+      <span class="footer-status" id="backend-status-indicator">● Java Backend: Verifying connection...</span>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- MODALS & DIALOGS -->
+  <!-- ======================================================== -->
+
+  <!-- 1. FULL ADMIN DASHBOARD MODAL WITH INTERACTIVE SVG CHARTS & SEGMENTATION -->
+  <dialog id="admin-dialog" class="admin-modal">
+    <div class="dialog-head admin-head">
+      <div class="admin-head-title">
+        <span class="admin-badge-icon">⚡</span>
+        <div>
+          <h2>ShopSphere Management & AI Analytics Console</h2>
+          <small style="color:var(--muted)">Administer catalog, inventory, order fulfillment, customers, and data
+            analytics</small>
+        </div>
+      </div>
+      <button id="close-admin" class="icon-btn close-modal-btn" aria-label="Close">×</button>
+    </div>
+
+    <!-- Admin Navigation Tabs -->
+    <div class="admin-nav-tabs">
+      <button class="admin-tab-btn active" data-tab="analytics">📊 Executive Analytics & Charts</button>
+      <button class="admin-tab-btn" data-tab="segmentation">👥 Customer Segmentation</button>
+      <button class="admin-tab-btn" data-tab="products">📦 Products & Stock</button>
+      <button class="admin-tab-btn" data-tab="orders">🚚 Orders & Fulfillment</button>
+      <button class="admin-tab-btn" data-tab="customers">👤 Customer Accounts</button>
+      <button class="admin-tab-btn" data-tab="coupons">🎟 Coupons & Deals</button>
+    </div>
+
+    <!-- Admin Tab 1: Executive Analytics with Visual Charts & Low Stock Alerts -->
+    <div id="admin-tab-analytics" class="admin-tab-content active">
+      <div id="admin-low-stock-banner" class="admin-alert-banner">
+        <strong>⚠ Attention Required:</strong>
+        <span id="low-stock-alert-text">Checking inventory levels...</span>
+      </div>
+
+      <!-- Admin KPI Cards -->
+      <div class="admin-kpi-grid">
+        <div class="kpi-card">
+          <span class="kpi-label">Gross Revenue</span>
+          <strong id="kpi-total-revenue" class="kpi-val">₹0.00</strong>
+          <small class="kpi-sub positive">↑ Direct Orders</small>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Total Orders</span>
+          <strong id="kpi-orders-count" class="kpi-val">0</strong>
+          <small class="kpi-sub">Lifetime Store Orders</small>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Active Catalog Items</span>
+          <strong id="kpi-products-count" class="kpi-val">0</strong>
+          <small class="kpi-sub">Across 4 Departments</small>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">Predicted 7-Day Demand</span>
+          <strong id="kpi-predicted-demand" class="kpi-val">~52 units</strong>
+          <small class="kpi-sub positive">FastAPI ML Forecast</small>
+        </div>
+      </div>
+
+      <!-- Visual Interactive SVG Charts Section -->
+      <div class="admin-charts-grid">
+        <!-- 1. Demand & Sales Forecast Chart -->
+        <div class="chart-box">
+          <div class="chart-header">
+            <div>
+              <h4>📈 7-Day Demand Forecast vs Recent Sales</h4>
+              <small style="color:var(--muted)">Daily units moving average smoothing (FastAPI
+                /analytics/forecast)</small>
+            </div>
+            <span class="status-badge delivered">ML Confidence: 89%</span>
+          </div>
+          <div id="sales-forecast-chart" class="chart-svg-container"></div>
+        </div>
+
+        <!-- 2. Department Category Share Bar Chart -->
+        <div class="chart-box">
+          <div class="chart-header">
+            <div>
+              <h4>🍰 Revenue Distribution by Category</h4>
+              <small style="color:var(--muted)">Share of completed sales volume</small>
+            </div>
+          </div>
+          <div id="category-share-chart" class="category-bars-container"></div>
+        </div>
+      </div>
+
+      <!-- Popular Products & Inventory Summary -->
+      <div class="admin-two-col" style="margin-top:20px;">
+        <div class="admin-box">
+          <h3>🔥 Top Customer-Rated Products</h3>
+          <div id="admin-popular-products-list" class="admin-list-compact"></div>
+        </div>
+        <div class="admin-box">
+          <h3>📦 Inventory Status Overview</h3>
+          <div id="admin-stock-summary-list" class="admin-list-compact"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Tab 2: Customer Segmentation (RFM Engine) -->
+    <div id="admin-tab-segmentation" class="admin-tab-content">
+      <div class="admin-actions-bar">
+        <div>
+          <h3>RFM Customer Segmentation Intelligence</h3>
+          <p class="muted-text" style="font-size:0.85rem; margin:0;">
+            Segments customers by Recency, Frequency, and Monetary spend to trigger personalized promotions.
+          </p>
+        </div>
+        <button id="resync-segmentation-btn" class="refresh-btn">Re-cluster Customers ⟳</button>
+      </div>
+
+      <!-- Segmentation Cards Grid -->
+      <div class="segment-grid">
+        <div class="segment-card vip">
+          <div class="segment-badge">👑 VIP Champions</div>
+          <div class="segment-count" id="count-vip">1</div>
+          <p>High monetary value & repeat frequency. Exclusive rewards.</p>
+          <div class="segment-action"><strong>Recommended Action:</strong> VIP early drop access & personalized
+            concierge.</div>
+        </div>
+        <div class="segment-card loyal">
+          <div class="segment-badge">⭐ Loyal Advocates</div>
+          <div class="segment-count" id="count-loyal">1</div>
+          <p>Frequent buyers with strong brand affinity.</p>
+          <div class="segment-action"><strong>Recommended Action:</strong> Send coupon SAVE20 to reward loyalty.</div>
+        </div>
+        <div class="segment-card potential">
+          <div class="segment-badge">🌱 Potential Loyalists</div>
+          <div class="segment-count" id="count-potential">1</div>
+          <p>Recent buyers with high engagement signals.</p>
+          <div class="segment-action"><strong>Recommended Action:</strong> Suggest complementary bundle upgrades.</div>
+        </div>
+        <div class="segment-card atrisk">
+          <div class="segment-badge">⏳ At-Risk Customers</div>
+          <div class="segment-count" id="count-atrisk">0</div>
+          <p>Lapsed purchase activity (> 30 days).</p>
+          <div class="segment-action"><strong>Recommended Action:</strong> Re-engagement winback email campaign.</div>
+        </div>
+      </div>
+
+      <!-- Segmented Customer List Table -->
+      <h4 style="margin:24px 0 12px;">Segment Breakdown Details</h4>
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Total Spend</th>
+              <th>Orders</th>
+              <th>Segment Classification</th>
+              <th>Next Marketing Step</th>
+            </tr>
+          </thead>
+          <tbody id="admin-segmentation-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Admin Tab 3: Products & Stock Management -->
+    <div id="admin-tab-products" class="admin-tab-content">
+      <div class="admin-actions-bar">
+        <div>
+          <button id="admin-add-product-btn" class="primary-button" style="padding:8px 18px; font-size:0.85rem;">+ Add
+            New Product</button>
+        </div>
+        <input type="search" id="admin-product-search" placeholder="Filter admin products..."
+          class="admin-search-input">
+      </div>
+
+      <form id="admin-product-form" class="admin-edit-form hidden">
+        <h3 id="admin-form-heading">Create New Product</h3>
+        <input type="hidden" name="productId" id="admin-p-id">
+
+        <div class="form-row">
+          <label>Product Name
+            <input name="name" id="admin-p-name" required placeholder="e.g. Ergonomic Keyboard">
+          </label>
+          <label>Category
+            <select name="categoryId" id="admin-p-category" class="sort-select"
+              style="width:100%; border-radius:10px; margin-top:4px;">
+              <option value="1">Electronics</option>
+              <option value="2">Accessories</option>
+              <option value="3">Study & Workspace</option>
+              <option value="4">Lifestyle & Wellness</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Selling Price (₹)
+            <input type="number" step="0.01" name="price" id="admin-p-price" required placeholder="1499.00">
+          </label>
+          <label>Original / MSRP Price (₹)
+            <input type="number" step="0.01" name="originalPrice" id="admin-p-orig-price" placeholder="1999.00">
+          </label>
+        </div>
+
+        <div class="form-row">
+          <label>Available Stock Units
+            <input type="number" name="stockQuantity" id="admin-p-stock" required min="0" placeholder="25">
+          </label>
+          <label>Promotional Badge
+            <input name="badge" id="admin-p-badge" placeholder="e.g. Bestseller, Trending, Top Value">
+          </label>
+        </div>
+
+        <label>Image URL
+          <input name="imageUrl" id="admin-p-image" required placeholder="https://images.unsplash.com/...">
+        </label>
+
+        <label>Product Description
+          <textarea name="description" id="admin-p-desc" rows="3" class="admin-textarea" required
+            placeholder="Describe product details..."></textarea>
+        </label>
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+          <button type="submit" class="primary-button" style="padding:9px 20px; font-size:0.88rem;">Save
+            Product</button>
+          <button type="button" id="admin-cancel-product-btn" class="secondary-button"
+            style="padding:9px 20px; font-size:0.88rem;">Cancel</button>
+        </div>
+      </form>
+
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock Units</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-products-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Admin Tab 4: Orders, Cancellations & Returns -->
+    <div id="admin-tab-orders" class="admin-tab-content">
+      <div class="admin-actions-bar">
+        <h3>Customer Orders Fulfillment (<span id="admin-orders-count">0</span>)</h3>
+        <select id="admin-order-status-filter" class="sort-select">
+          <option value="ALL">All Statuses</option>
+          <option value="Processing">Processing</option>
+          <option value="Shipped">Shipped</option>
+          <option value="Delivered">Delivered</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="Returned">Returned</option>
+        </select>
+      </div>
+
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Order Ref</th>
+              <th>Customer</th>
+              <th>Date</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th>Update Status</th>
+            </tr>
+          </thead>
+          <tbody id="admin-orders-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Admin Tab 5: Customer Accounts -->
+    <div id="admin-tab-customers" class="admin-tab-content">
+      <div class="admin-actions-bar">
+        <h3>Registered Customers (<span id="admin-customers-count">0</span>)</h3>
+      </div>
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Saved Addresses</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-customers-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Admin Tab 6: Coupons & Promotions -->
+    <div id="admin-tab-coupons" class="admin-tab-content">
+      <div class="admin-actions-bar">
+        <h3>Discount Coupons & Campaigns</h3>
+        <button id="admin-add-coupon-btn" class="secondary-btn-sm">+ Create Coupon</button>
+      </div>
+
+      <form id="admin-coupon-form" class="admin-edit-form hidden">
+        <h4>Create Promotion Coupon</h4>
+        <div class="form-row">
+          <label>Coupon Code (e.g. FLASH50)
+            <input name="code" required placeholder="SUMMER30" uppercase>
+          </label>
+          <label>Discount Percentage (%)
+            <input type="number" name="discount" min="1" max="90" required placeholder="30">
+          </label>
+        </div>
+        <label>Promotion Description
+          <input name="desc" placeholder="30% discount on orders above ₹1,500">
+        </label>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button type="submit" class="primary-button" style="padding:6px 14px; font-size:0.82rem;">Save Coupon</button>
+          <button type="button" id="admin-cancel-coupon-btn" class="secondary-button"
+            style="padding:6px 14px; font-size:0.82rem;">Cancel</button>
+        </div>
+      </form>
+
+      <div class="admin-table-container">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Discount</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-coupons-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 2. Authentication Dialog -->
+  <dialog id="auth-dialog">
+    <div class="dialog-head">
+      <h2 id="auth-dialog-title">Welcome to ShopSphere</h2>
+      <button id="close-auth" class="icon-btn close-modal-btn" aria-label="Close">×</button>
+    </div>
+
+    <div class="auth-tabs">
+      <button id="tab-login" class="auth-tab-btn active">Sign In</button>
+      <button id="tab-register" class="auth-tab-btn">Create Account</button>
+      <button id="tab-forgot" class="auth-tab-btn">Reset Password</button>
+    </div>
+
+    <form id="login-form" class="auth-form active">
+      <p class="auth-desc">Log in to sync your cart, orders, saved addresses, and personal wishlist.</p>
+      <label>Email Address
+        <input type="email" name="email" required placeholder="you@example.com" value="student@example.com">
+      </label>
+      <label>Password
+        <input type="password" name="password" required placeholder="••••••••" value="demo1234">
+      </label>
+      <div class="auth-help-line">
+        <small style="color:var(--muted)">Demo customer: <code>student@example.com</code> | Admin:
+          <code>admin@shopsphere.ai</code></small>
+      </div>
+      <button type="submit" class="primary-button" style="width:100%; margin-top:14px;">Sign In to Account →</button>
+    </form>
+
+    <form id="register-form" class="auth-form">
+      <p class="auth-desc">Join ShopSphere to get access to personalized AI recommendations and express checkout.</p>
+      <label>Full Name
+        <input type="text" name="name" required placeholder="e.g. Ananya Sen" maxlength="120">
+      </label>
+      <label>Email Address
+        <input type="email" name="email" required placeholder="ananya@example.com" maxlength="190">
+      </label>
+      <label>Create Password
+        <input type="password" name="password" required minlength="6" placeholder="At least 6 characters">
+      </label>
+      <button type="submit" class="primary-button" style="width:100%; margin-top:14px;">Create My Account →</button>
+    </form>
+
+    <form id="forgot-form" class="auth-form">
+      <p class="auth-desc">Enter your registered email address and we'll send a password recovery reset token.</p>
+      <label>Your Account Email
+        <input type="email" name="email" required placeholder="you@example.com">
+      </label>
+      <button type="submit" class="primary-button" style="width:100%; margin-top:14px;">Send Reset Link ✉</button>
+    </form>
+  </dialog>
+
+  <!-- 3. Customer Profile & Saved Addresses Dialog -->
+  <dialog id="profile-dialog">
+    <div class="dialog-head">
+      <h2>Customer Profile & Addresses</h2>
+      <button id="close-profile" class="icon-btn close-modal-btn" aria-label="Close">×</button>
+    </div>
+
+    <div class="profile-header-card">
+      <div class="profile-avatar" id="profile-avatar-char">U</div>
+      <div>
+        <h3 id="profile-display-name" style="margin:0 0 4px;">Customer Name</h3>
+        <div id="profile-display-email" style="color:var(--muted); font-size:0.88rem;">user@example.com</div>
+        <div class="badge-pill-verified">✓ Verified Customer Account</div>
+      </div>
+    </div>
+
+    <div class="profile-section-block">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h4 style="margin:0;">Saved Delivery Addresses (<span id="address-count">0</span>)</h4>
+        <button id="add-address-btn" class="secondary-btn-sm">+ Add New</button>
+      </div>
+
+      <div id="address-list" class="address-list-container"></div>
+
+      <form id="new-address-form" class="new-address-form hidden">
+        <div class="form-row">
+          <label>Label (e.g. Home, Office)
+            <input name="label" required placeholder="Home" maxlength="30">
+          </label>
+          <label>Pincode
+            <input name="pincode" required placeholder="400001" maxlength="10">
+          </label>
+        </div>
+        <label>Street Address & Landmark
+          <input name="street" required placeholder="Flat 402, Green Valley Apartments" maxlength="180">
+        </label>
+        <div class="form-row">
+          <label>City
+            <input name="city" required placeholder="Mumbai" maxlength="60">
+          </label>
+          <label>State
+            <input name="state" required placeholder="Maharashtra" maxlength="60">
+          </label>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <button type="submit" class="primary-button" style="padding:8px 18px; font-size:0.85rem;">Save
+            Address</button>
+          <button type="button" id="cancel-address-btn" class="secondary-button"
+            style="padding:8px 18px; font-size:0.85rem;">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="profile-footer-actions">
+      <button id="profile-view-orders-btn" class="secondary-button">View Order History 📦</button>
+      <button id="logout-btn" class="danger-btn">Sign Out ⎋</button>
+    </div>
+  </dialog>
+
+  <!-- 4. Cart Dialog with Shipping Calculation & Coupons -->
+  <dialog id="cart-dialog">
+    <div class="dialog-head">
+      <h2>Shopping Cart</h2>
+      <button id="close-cart" class="icon-btn close-modal-btn" aria-label="Close cart">×</button>
+    </div>
+
+    <div id="cart-items" class="cart-items-container"></div>
+
+    <div class="coupon-box">
+      <div class="coupon-input-group">
+        <input type="text" id="coupon-input" placeholder="Coupon code (e.g. SAVE20)">
+        <button id="apply-coupon-btn" class="secondary-btn-sm">Apply</button>
+      </div>
+      <div id="coupon-feedback" class="coupon-feedback"></div>
+    </div>
+
+    <div class="order-summary-breakdown">
+      <div class="summary-line">
+        <span>Subtotal</span>
+        <strong id="cart-subtotal">₹0.00</strong>
+      </div>
+      <div class="summary-line" id="discount-row" style="display:none; color:#10b981;">
+        <span>Discount (Coupon)</span>
+        <strong id="cart-discount">-₹0.00</strong>
+      </div>
+      <div class="summary-line">
+        <span>Estimated Shipping (Free over ₹999)</span>
+        <strong id="cart-shipping">₹0.00</strong>
+      </div>
+      <div class="summary-line grand-total">
+        <span>Grand Total</span>
+        <strong id="cart-total">₹0.00</strong>
+      </div>
+    </div>
+
+    <form id="checkout-form" class="checkout-form">
+      <h3>Customer & Delivery Information</h3>
+      <div class="form-row">
+        <label>Full Name
+          <input name="customerName" id="checkout-name" required maxlength="120" placeholder="e.g. Rahul Verma">
+        </label>
+        <label>Email Address
+          <input name="customerEmail" id="checkout-email" type="email" required maxlength="190"
+            placeholder="rahul@example.com">
+        </label>
+      </div>
+
+      <div id="address-select-group" style="display:none; margin-bottom:10px;">
+        <label>Select Saved Address:
+          <select id="saved-address-selector" class="sort-select"
+            style="width:100%; border-radius:10px; margin-top:4px;">
+            <option value="">Choose an address or type below...</option>
+          </select>
+        </label>
+      </div>
+
+      <label>Delivery Address
+        <input name="deliveryAddress" id="checkout-address" required maxlength="250"
+          placeholder="Street, City, Pincode">
+      </label>
+
+      <button class="primary-button checkout-submit-btn" type="submit">Place Order & Validate →</button>
+    </form>
+    <p id="checkout-status" class="status"></p>
+  </dialog>
+
+  <!-- 5. Wishlist Dialog -->
+  <dialog id="wishlist-dialog">
+    <div class="dialog-head">
+      <h2>My Wishlist (<span id="modal-wishlist-count">0</span>)</h2>
+      <button id="close-wishlist" class="icon-btn close-modal-btn" aria-label="Close wishlist">×</button>
+    </div>
+    <div id="wishlist-items" class="wishlist-items-container"></div>
+  </dialog>
+
+  <!-- 6. Order History & Tracking Dialog -->
+  <dialog id="orders-dialog">
+    <div class="dialog-head">
+      <h2>My Orders & Live Tracking</h2>
+      <button id="close-orders" class="icon-btn close-modal-btn" aria-label="Close orders">×</button>
+    </div>
+    <div id="orders-list" class="orders-list-container"></div>
+  </dialog>
+
+  <!-- 7. Product Details Quick View Modal with User Reviews & Related Items Suggestions -->
+  <dialog id="product-modal">
+    <div class="dialog-head">
+      <h3 id="modal-product-title">Product Details</h3>
+      <button id="close-product-modal" class="icon-btn close-modal-btn" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body" id="modal-product-body"></div>
+  </dialog>
+
+  <!-- 8. Order Confirmation Dialog -->
+  <dialog id="payment-modal">
+    <div class="dialog-head">
+      <h3>Order Placed Successfully</h3>
+      <button id="close-payment-modal" class="icon-btn close-modal-btn" aria-label="Close">×</button>
+    </div>
+    <div class="payment-modal-body">
+      <div class="order-success-icon">✓</div>
+      <h2>Thank You for Your Order!</h2>
+      <p class="order-id-label">Tracking Number: <strong id="confirmed-order-id">#ORD-90234</strong></p>
+
+      <div class="order-timeline">
+        <div class="step completed"><span>●</span><small>Order Placed</small></div>
+        <div class="step active"><span>●</span><small>Processing</small></div>
+        <div class="step"><span>○</span><small>Shipped</small></div>
+        <div class="step"><span>○</span><small>Delivered</small></div>
+      </div>
+
+      <div class="order-summary-box">
+        <p id="order-summary-text">Your order details and tracking status have been saved in your personal customer
+          account.</p>
+      </div>
+
+      <div class="modal-actions-row">
+        <button id="view-order-tracking-btn" class="secondary-button">Track Order</button>
+        <button id="dismiss-payment-btn" class="primary-button">Continue Shopping</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- 9. Floating AI Shopping Assistant Drawer -->
+  <div class="ai-widget-container">
+    <button id="ai-chat-bubble" class="ai-chat-bubble" aria-label="Open AI Shopping Assistant">
+      <span class="sparkle">✦</span> AI Shopping Guide
+    </button>
+
+    <div id="ai-chat-drawer" class="ai-chat-drawer hidden">
+      <div class="ai-drawer-header">
+        <div class="ai-title-wrap">
+          <span class="ai-pulse-dot"></span>
+          <strong>ShopSphere AI Assistant</strong>
+        </div>
+        <button id="close-ai-drawer" class="icon-btn">×</button>
+      </div>
+      <div class="ai-chat-messages" id="ai-chat-messages">
+        <div class="ai-msg bot">
+          Hello! I'm your AI Shopping Concierge. Ask me anything, or tap a shortcut below:
+          <div class="ai-quick-prompts">
+            <button class="prompt-chip" data-query="under 2000">⚡ Items under ₹2,000</button>
+            <button class="prompt-chip" data-query="study">📚 Best for study & productivity</button>
+            <button class="prompt-chip" data-query="electronics">🎧 Top electronics & audio</button>
+            <button class="prompt-chip" data-query="recommend">💡 Recommend items for my cart</button>
+          </div>
+        </div>
+      </div>
+      <form id="ai-chat-form" class="ai-chat-form">
+        <input type="text" id="ai-input" placeholder="Ask about prices, specs, recommendations..." autocomplete="off">
+        <button type="submit" aria-label="Send">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
